@@ -6,6 +6,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { PostModule } from './modules/post/post.module';
 import { PrismaModule } from 'nestjs-prisma';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -13,6 +15,9 @@ import { PrismaModule } from 'nestjs-prisma';
     }),
     PrismaModule.forRoot({
       isGlobal: true,
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
     }),
     AuthModule,
     UserModule,

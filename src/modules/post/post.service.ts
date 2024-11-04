@@ -1,19 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PrismaService } from 'nestjs-prisma';
-
 @Injectable()
 export class PostService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createPostDto: CreatePostDto) {
+  async create(createPostDto: CreatePostDto, fileUrl: string) {
     try {
       await this.prisma.post.create({
         data: {
-          name: createPostDto.name,
+          title: createPostDto.title,
           content: createPostDto.content,
           likes: 0,
+          imageUrl: fileUrl,
         },
       });
     } catch (error) {}

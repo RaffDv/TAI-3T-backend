@@ -16,7 +16,8 @@ datasource db {
 model Post {
   id String @id @default(uuid())
 
-  name String
-  likes Int @default(0)
-  content String 
+  title    String
+  likes    Int     @default(0)
+  content  String
+  imageUrl String?
 }
