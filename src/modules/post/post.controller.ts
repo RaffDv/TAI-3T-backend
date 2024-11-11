@@ -8,6 +8,7 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  ParseFilePipe,
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -26,6 +27,7 @@ export class PostController {
       storage: diskStorage({
         destination: './uploads/',
         filename: (req, file, cb) => {
+          if (!file) return;
           const fileName = generateFilename(file);
 
           cb(null, fileName);
@@ -35,11 +37,14 @@ export class PostController {
   )
   create(
     @Body() createPostDto: CreatePostDto,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile(
+      new ParseFilePipe({
+        fileIsRequired: false,
+      }),
+    )
+    file: Express.Multer.File,
   ) {
-    console.log(file.filename);
-
-    return this.postService.create(createPostDto, file.filename.split('.')[0]);
+    return this.postService.create(createPostDto, file?.filename ?? '');
   }
   @Get()
   findAll() {
