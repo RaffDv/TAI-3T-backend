@@ -65,4 +65,9 @@ export class PostController {
   remove(@Param('id') id: string) {
     return this.postService.remove(id);
   }
+
+  @Post('/like/:id')
+  async like(@Param('id') id: string) {
+    return await this.postService.like(id);
+  }
 }

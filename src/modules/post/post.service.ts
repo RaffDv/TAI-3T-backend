@@ -49,4 +49,17 @@ export class PostService {
       where: { id },
     });
   }
+
+  async like(id: string) {
+    const updatedPost = await this.prisma.post.update({
+      where: {
+        id,
+      },
+      data: {
+        likes: {
+          increment: 1,
+        },
+      },
+    });
+  }
 }
