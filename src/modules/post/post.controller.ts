@@ -39,7 +39,7 @@ export class PostController {
     @Body() createPostDto: CreatePostDto,
     @UploadedFile(
       new ParseFilePipe({
-        fileIsRequired: false,
+        fileIsRequired: true,
       }),
     )
     file: Express.Multer.File,
@@ -68,6 +68,8 @@ export class PostController {
 
   @Post('/like/:id')
   async like(@Param('id') id: string) {
+    console.log('like route');
+
     return await this.postService.like(id);
   }
 }
